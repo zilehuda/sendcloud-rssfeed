@@ -16,7 +16,14 @@ async def get_feeds(
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    return db.query(Feed).offset(skip).limit(limit).all()
+    feeds: Optional[list[Feed]] = db.query(Feed).offset(skip).limit(limit).all()
+
+    # Determine if the user is following each feed
+    feed_ids_followed = set(feed.id for feed in user.feeds)
+    for feed in feeds:
+        feed.followed = feed.id in feed_ids_followed
+
+    return feed
 
 
 @router.post("/{feed_id}/follow")

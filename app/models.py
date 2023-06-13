@@ -37,7 +37,7 @@ class User(BaseModel):
     feeds: Mapped[list[Feed]] = relationship(
         "Feed", secondary=user_feeds, back_populates="users"
     )
-    posts_read = relationship(
+    read_posts = relationship(
         "Post", secondary=user_post_read, back_populates="read_by_users"
     )
 
@@ -66,5 +66,5 @@ class Post(BaseModel):
 
     feed = relationship("Feed", backref="posts")
     read_by_users = relationship(
-        "User", secondary=user_post_read, back_populates="posts_read"
+        "User", secondary=user_post_read, back_populates="read_posts"
     )
