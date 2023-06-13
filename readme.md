@@ -7,7 +7,7 @@ rssfeed-service/
 │ │ ├── feeds.py
 │ │ ├── posts.py
 │ │ └── users.py
-│ ├── background/
+│ ├── tasks/
 │ │ ├── __init__.py
 │ │ └── feed_refresh.py
 │ ├── models/
@@ -25,7 +25,7 @@ rssfeed-service/
 ├── Dockerfile
 ├── docker-compose.yml
 └── README.md
-```
+````
 
 
 - Fetch All Feeds:

@@ -51,6 +51,7 @@ class Feed(BaseModel):
     users: Mapped[list[User]] = relationship(
         "User", secondary=user_feeds, back_populates="feeds"
     )
+    latest_post_id = Column(String, default=None)
 
 
 class Post(BaseModel):

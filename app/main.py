@@ -7,7 +7,8 @@ from app.api.posts import router as post_router
 from app.auth.jwt_bearer import JWTBearer
 from app.auth.service import get_current_user
 from app.database import Base, engine, get_db
-from app.services.rss_feed_service import RSSFeedService
+from app.models import Feed
+from app.services.rss_feed_service import RSSFeedCreator, RssFeedFetcher, RSSFeedUpdater
 
 # Base.metadata.create_all(bind=engine)
 
@@ -37,9 +38,14 @@ app.include_router(
 @app.get("/")
 async def root(db: Session = Depends(get_db)):
     feed_url = "https://feeds.feedburner.com/tweakers/mixed"
-    rss_feed_service: RSSFeedService = RSSFeedService(feed_url, db)
-    rss_feed_service.fetch_and_save_feed()
-    return {"msg": "created"}
+    feed_fetcher = RssFeedFetcher(feed_url)
+    feed = db.query(Feed).filter_by(id=1).first()
+    # rss_feed_service = RSSFeedCreator(feed_url, feed_fetcher, db)
+    # rss_feed_service.fetch_and_save_feed()
+
+    rss_feed_service = RSSFeedUpdater(feed.id, feed_fetcher, db)
+    rss_feed_service.fetch_and_update_feed()
+    return {"msg": "done"}
 
 
 @app.get(
