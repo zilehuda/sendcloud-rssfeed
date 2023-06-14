@@ -3,7 +3,7 @@ import time
 
 from app.database import get_db
 from app.models import Feed
-from app.services.rss_feed import RssFeedFetcher, RSSFeedUpdater
+from app.services.rss_feed_services import RSSFeedFetcher, RSSFeedUpdater
 from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
@@ -14,7 +14,7 @@ def refresh_feed(feed_id):
     db = next(get_db())
     feed = db.query(Feed).filter_by(id=feed_id).first()
     if feed:
-        feed_fetcher = RssFeedFetcher(feed.feed_url)
+        feed_fetcher = RSSFeedFetcher(feed.feed_url)
         rss_feed_service = RSSFeedUpdater(feed.id, feed_fetcher, db)
         rss_feed_service.fetch_and_update_feed()
 

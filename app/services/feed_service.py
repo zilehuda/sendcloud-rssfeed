@@ -34,7 +34,7 @@ def follow_feed(db: Session, user: User, feed_id: int) -> None:
 
 def unfollow_feed(db: Session, user: User, feed_id: int) -> None:
     feed_repository = FeedRepository(db)
-    feed = feed_repository.get_feed_by_id(feed_id)
+    feed: Feed = feed_repository.get_feed_by_id(feed_id)
 
     if feed is None:
         raise HTTPException(status_code=404, detail="Feed not found")

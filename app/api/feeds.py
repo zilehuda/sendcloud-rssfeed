@@ -1,10 +1,9 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.auth.service import get_current_user
 from app.database import get_db
-from app.models import Feed, User
-from typing import Optional
+from app.models import User
 
 from app.schemas import GetFeedsResponse, ResponseWithMessage
 import app.services.feed_service as feed_service
