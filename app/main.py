@@ -52,8 +52,8 @@ async def root(db: Session = Depends(get_db)):
     "/hello/{name}",
 )
 async def say_hello(name: str):
-    from .tasks import refresh_feeds
+    from .tasks import create_task
 
-    task = refresh_feeds.delay()
+    task = create_task.delay(5, 5, 5)
     print(task)
     return {"message": "triggered"}

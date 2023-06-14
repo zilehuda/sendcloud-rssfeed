@@ -23,6 +23,7 @@ archive.zip
 .ruff_cache
 *.sqlite
 .env
+*.db
 
 # vim temporary files
 *~
