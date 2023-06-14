@@ -6,13 +6,14 @@ from feedparser import FeedParserDict
 from sqlalchemy.orm import Session
 
 from app.models import Feed, Post
+from typing import Optional
 
 
 class RssFeedFetcher:
     def __init__(self, feed_url: str) -> None:
         self.feed_url = feed_url
 
-    def fetch_feed(self) -> FeedParserDict:
+    def fetch_feed(self) -> Optional[FeedParserDict]:
         try:
             feed = feedparser.parse(self.feed_url)
             return feed
@@ -23,19 +24,19 @@ class RssFeedFetcher:
 
 
 class RSSFeedCreator:
-    def __init__(self, feed_url, fetcher: RssFeedFetcher, db: Session) -> None:
+    def __init__(self, feed_url: str, fetcher: RssFeedFetcher, db: Session) -> None:
         self.feed_url = feed_url
         self._db = db
         self._fetcher = fetcher
 
-    def _save_feed(self, feed) -> Feed:
+    def _save_feed(self, feed: FeedParserDict) -> Feed:
         try:
             _feed = feed.feed
-            latest_post_id: str = None
+            latest_post_id: Optional[str] = None
             if len(feed.entries):
                 latest_post_id = feed.entries[0].id
 
-            feed_obj = Feed(
+            feed_obj: Feed = Feed(  # type: ignore[misc]
                 title=_feed.title,
                 website=_feed.link,
                 feed_url=self.feed_url,
@@ -64,7 +65,7 @@ class RSSFeedCreator:
         except Exception as e:
             raise e
 
-    def fetch_and_save_feed(self) -> Feed:
+    def fetch_and_save_feed(self) -> Optional[Feed]:
         try:
             existing_feed = (
                 self._db.query(Feed).filter_by(feed_url=self.feed_url).first()
@@ -83,12 +84,12 @@ class RSSFeedCreator:
 
 
 class RSSFeedUpdater:
-    def __init__(self, feed_id, fetcher: RssFeedFetcher, db: Session) -> None:
+    def __init__(self, feed_id: int, fetcher: RssFeedFetcher, db: Session) -> None:
         self.feed_id = feed_id
         self._fetcher = fetcher
         self._db = db
 
-    def _update_feed(self, feed_obj, feed_entries):
+    def _update_feed(self, feed_obj: Feed, feed_entries: FeedParserDict) -> None:
         try:
             latest_post_id = feed_obj.latest_post_id
             for entry in feed_entries:
@@ -121,12 +122,12 @@ class RSSFeedUpdater:
             # Handle the exception according to your requirements
             print(f"Error saving feed entries: {str(e)}")
 
-    def fetch_and_update_feed(self):
-        feed_obj: Feed = self._db.query(Feed).get(self.feed_id)
+    def fetch_and_update_feed(self) -> None:
+        feed_obj: Optional[Feed] = self._db.query(Feed).get(self.feed_id)
         if feed_obj is None:
             raise ValueError(f"Feed with ID {self.feed_id} does not exist.")
 
-        fetched_feed = self._fetcher.fetch_feed()
+        fetched_feed: FeedParserDict = self._fetcher.fetch_feed()
         if fetched_feed:
             self._update_feed(
                 feed_obj,

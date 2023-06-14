@@ -54,3 +54,13 @@ DELETE: Unfollow the feed. Response: 200 OK
 PUT: api/posts{post_id}/read 
 Request body:
 read: Boolean indicating the read status (true for read, false for unread).
+
+
+# Remaining
+- retries in feedparser
+- proper logging and try catch
+- implement celery with rabbitmq and 2,5,8 retries
+- add a field to feed which tell the job status and do not run another job if old one is running
+- proper typing
+- test coverage using pytest and factory_boy
+- good to have: async ORM and functions

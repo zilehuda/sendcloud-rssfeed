@@ -11,9 +11,10 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship, Mapped
 from sqlalchemy_utils import EmailType, URLType
-
+from typing import Optional
 from app.database import Base
 from app.utils.base_model import BaseModel
+
 
 user_feeds = Table(
     "user_feeds",
@@ -51,7 +52,7 @@ class Feed(BaseModel):
     users: Mapped[list[User]] = relationship(
         "User", secondary=user_feeds, back_populates="feeds"
     )
-    latest_post_id = Column(String, default=None)
+    latest_post_id: None = Column(String, default=None, nullable=False)
 
 
 class Post(BaseModel):
