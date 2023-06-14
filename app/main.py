@@ -8,7 +8,7 @@ from app.auth.jwt_bearer import JWTBearer
 from app.auth.service import get_current_user
 from app.database import Base, engine, get_db
 from app.models import Feed
-from app.services.rss_feed_service import RSSFeedCreator, RssFeedFetcher, RSSFeedUpdater
+from app.services.rss_feed import RSSFeedCreator, RssFeedFetcher, RSSFeedUpdater
 
 # Base.metadata.create_all(bind=engine)
 
@@ -50,8 +50,10 @@ async def root(db: Session = Depends(get_db)):
 
 @app.get(
     "/hello/{name}",
-    dependencies=[Depends(JWTBearer())],
 )
-async def say_hello(name: str, user: dict = Depends(get_current_user)):
-    return user
-    return {"message": f"Hello {name}"}
+async def say_hello(name: str):
+    from .tasks import refresh_feeds
+
+    task = refresh_feeds.delay()
+    print(task)
+    return {"message": "triggered"}
