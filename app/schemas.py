@@ -50,3 +50,23 @@ class GetFeedsResponse(BaseModel):
 
 class ResponseWithMessage(BaseModel):
     message: str
+
+
+class Post(BaseModel):
+    title: str
+    post_id: str
+    author: str
+    feed_id: int
+    published_at: datetime
+    id: int
+    summary: str
+    post_url: str
+    created_at: datetime
+    is_read: bool
+
+    class Config:
+        orm_mode = True
+
+
+class GetPostsResponse(BaseModel):
+    posts: list[Post]
