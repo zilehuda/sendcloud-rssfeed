@@ -10,7 +10,7 @@ from app.auth.service import get_current_user
 from app.models import User
 from sqlalchemy import event
 
-from app.schemas import GetPostsResponse
+from app.schemas import GetPostsResponse, ResponseWithMessage
 from app.services import post_service
 
 router = APIRouter()
@@ -31,31 +31,12 @@ async def get_posts(
     return GetPostsResponse(posts=posts)
 
 
-@router.put("/{post_id}/read")
+@router.put("/{post_id}/read", response_model=ResponseWithMessage)
 async def mark_post_as_read_unread(
     post_id: int,
     read: bool,
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
-):
-    post = db.query(Post).filter(Post.id == post_id).first()
-
-    if not post:
-        raise HTTPException(status_code=404, detail="Post not found")
-
-    user_read_posts_ids = set(post.id for post in user.read_posts)
-    message: str = ""
-    if read:
-        # Mark post as read
-        if post.id not in user_read_posts_ids:
-            user.read_posts.append(post)
-        message = "Post marked as read"
-    else:
-        # Mark post as unread
-        if post.id in user_read_posts_ids:
-            user.read_posts.remove(post)
-        message = "Post marked as unread"
-
-    db.commit()
-    db.refresh(post)
-    return {"message": message}
+) -> ResponseWithMessage:
+    message = post_service.change_post_read_status(db, user, post_id, read)
+    return ResponseWithMessage(message=message)

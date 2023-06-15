@@ -36,5 +36,13 @@ class PostRepository:
 
         return posts
 
-    def get_feed_by_id(self, post_id: int) -> Post:
-        return self._db.query(Post).get(post_id)
+    def mark_post_as_read(self, user: User, post: Post):
+        user.read_posts.append(post)
+        self._db.commit()
+
+    def mark_post_as_unread(self, user: User, post: Post):
+        user.read_posts.remove(post)
+        self._db.commit()
+
+    def get_post_by_id(self, post_id: int) -> Post:
+        return self._db.get(Post, post_id)

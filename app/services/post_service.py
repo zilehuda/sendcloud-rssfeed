@@ -44,3 +44,24 @@ def get_posts_for_user_by_filter(
         post.is_read = post.id in user_read_posts_ids
 
     return posts
+
+
+def change_post_read_status(db: Session, user: User, post_id: int, read: bool) -> str:
+    post_repository = PostRepository(db)
+    post = post_repository.get_post_by_id(post_id)
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+
+    user_read_posts_ids = set(post.id for post in user.read_posts)
+    if read:
+        # Mark post as read
+        if post.id not in user_read_posts_ids:
+            post_repository.mark_post_as_read(user, post)
+        message = "Post marked as read"
+    else:
+        # Mark post as unread
+        if post.id in user_read_posts_ids:
+            post_repository.mark_post_as_unread(user, post)
+        message = "Post marked as unread"
+
+    return message
