@@ -16,8 +16,8 @@ class FeedRepository:
 
     def add_feed_to_user(self, user: User, feed: Feed) -> None:
         user.feeds.append(feed)
-        self.db.commit()
+        self._db.commit()
 
     def remove_feed_from_user(self, user: User, feed: Feed) -> None:
         user.feeds.remove(feed)
-        self.db.commit()
+        self._db.commit()

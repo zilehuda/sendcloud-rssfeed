@@ -5,6 +5,7 @@ from app.api.auth import router as auth_router
 from app.api.feeds import router as feed_router
 from app.api.posts import router as post_router
 from app.auth.jwt_bearer import JWTBearer
+from app.config import get_settings
 from app.database import get_db
 from app.models import Feed
 from app.services.rss_feed_services import (
@@ -42,12 +43,15 @@ app.include_router(
 async def root(db: Session = Depends(get_db)):
     feed_url = "https://feeds.feedburner.com/tweakers/mixed"
     feed_fetcher = RSSFeedFetcher(feed_url)
-    feed = db.query(Feed).filter_by(id=1).first()
-    # rss_feed_service = RSSFeedCreator(feed_url, feed_fetcher, db)
-    # rss_feed_service.fetch_and_save_feed()
 
-    rss_feed_service = RSSFeedUpdater(feed.id, feed_fetcher, db)
-    rss_feed_service.fetch_and_update_feed()
+    # feeds = db.query(Feed).all()
+    # feed = db.query(Feed).filter_by(id=1).first()
+
+    rss_feed_service = RSSFeedCreator(feed_url, feed_fetcher, db)
+    rss_feed_service.fetch_and_save_feed()
+    feeds = db.query(Feed).all()
+    # rss_feed_service = RSSFeedUpdater(feed.id, feed_fetcher, db)
+    # rss_feed_service.fetch_and_update_feed()
     return {"msg": "done"}
 
 
@@ -55,8 +59,8 @@ async def root(db: Session = Depends(get_db)):
     "/hello/{name}",
 )
 async def say_hello(name: str):
-    from .tasks import create_task
+    from .tasks import refresh_feeds
 
-    task = create_task.delay(5, 5, 5)
+    task = refresh_feeds.delay()
     print(task)
     return {"message": "triggered"}

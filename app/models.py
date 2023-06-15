@@ -33,6 +33,7 @@ user_post_read = Table(
 
 class User(BaseModel):
     __tablename__ = "users"
+    id = Column(Integer(), primary_key=True)
     email = Column(EmailType, unique=True)
     password = Column(String)
     feeds: Mapped[list[Feed]] = relationship(
@@ -52,7 +53,7 @@ class Feed(BaseModel):
     users: Mapped[list[User]] = relationship(
         "User", secondary=user_feeds, back_populates="feeds"
     )
-    latest_post_id: None = Column(String, default=None, nullable=False)
+    latest_post_id: None = Column(String, default=None, nullable=True)
 
 
 class Post(BaseModel):

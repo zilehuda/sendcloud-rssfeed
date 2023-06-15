@@ -40,8 +40,6 @@ def unfollow_feed(db: Session, user: User, feed_id: int) -> None:
         raise HTTPException(status_code=404, detail="Feed not found")
 
     if feed not in user.feeds:
-        raise HTTPException(
-            status_code=400, detail="You are already not following this feed"
-        )
+        raise HTTPException(status_code=400, detail="You are not following this feed")
 
     feed_repository.remove_feed_from_user(user, feed)

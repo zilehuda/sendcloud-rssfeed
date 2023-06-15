@@ -7,6 +7,8 @@ from app.models import User
 
 from app.schemas import GetFeedsResponse, ResponseWithMessage
 import app.services.feed_service as feed_service
+from app.config import get_settings, Settings
+from typing import Annotated
 
 router = APIRouter()
 

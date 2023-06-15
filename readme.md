@@ -64,3 +64,7 @@ read: Boolean indicating the read status (true for read, false for unread).
 - proper typing
 - test coverage using pytest and factory_boy
 - good to have: async ORM and functions
+- recheck requirements txt
+- complete docker
+- allow user to add feed
+- allow force refresh
