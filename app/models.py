@@ -16,19 +16,16 @@ from app.database import Base
 from app.utils.base_model import BaseModel
 
 
-user_feeds = Table(
-    "user_feeds",
-    Base.metadata,
-    Column("user_id", ForeignKey("users.id"), primary_key=True),
-    Column("feed_id", ForeignKey("feeds.id"), primary_key=True),
-)
+class UserFeed(Base):
+    __tablename__ = "user_feeds"
+    user_id = Column("user_id", ForeignKey("users.id"), primary_key=True)
+    feed_id = Column("feed_id", ForeignKey("feeds.id"), primary_key=True)
 
-user_post_read = Table(
-    "user_post_read",
-    Base.metadata,
-    Column("user_id", ForeignKey("users.id"), primary_key=True),
-    Column("post_id", ForeignKey("posts.id"), primary_key=True),
-)
+
+class UserPostRead(Base):
+    __tablename__ = "user_post_read"
+    user_id = Column("user_id", ForeignKey("users.id"), primary_key=True)
+    post_id = Column("post_id", ForeignKey("posts.id"), primary_key=True)
 
 
 class User(BaseModel):
@@ -37,27 +34,29 @@ class User(BaseModel):
     email = Column(EmailType, unique=True)
     password = Column(String)
     feeds: Mapped[list[Feed]] = relationship(
-        "Feed", secondary=user_feeds, back_populates="users"
+        "Feed", secondary=UserFeed.__tablename__, back_populates="users"
     )
     read_posts = relationship(
-        "Post", secondary=user_post_read, back_populates="read_by_users"
+        "Post", secondary=UserPostRead.__tablename__, back_populates="read_by_users"
     )
 
 
 class Feed(BaseModel):
     __tablename__ = "feeds"
+    id = Column(Integer(), primary_key=True)
     title = Column(String)
     feed_url = Column(URLType)
     website = Column(URLType)
     logo = Column(URLType)
     users: Mapped[list[User]] = relationship(
-        "User", secondary=user_feeds, back_populates="feeds"
+        "User", secondary=UserFeed.__tablename__, back_populates="feeds"
     )
     latest_post_id: None = Column(String, default=None, nullable=True)
 
 
 class Post(BaseModel):
     __tablename__ = "posts"
+    id = Column(Integer(), primary_key=True)
     post_id = Column(String, unique=True)
     title = Column(String)
     summary = Column(Text)
@@ -68,5 +67,5 @@ class Post(BaseModel):
 
     feed = relationship("Feed", backref="posts")
     read_by_users = relationship(
-        "User", secondary=user_post_read, back_populates="read_posts"
+        "User", secondary=UserPostRead.__tablename__, back_populates="read_posts"
     )

@@ -18,7 +18,6 @@ def test_get_feeds(bob_client):
 
 def test_follow_feed(bob_client):
     feed = FeedFactory.create()
-
     # Make a request to the get_feeds endpoint
     response = bob_client.post(f"/api/feeds/{feed.id}/follow")
 
@@ -27,10 +26,9 @@ def test_follow_feed(bob_client):
     assert response_data["message"] == "Successfully followed the feed"
 
 
-def test_unfollow_feed(bob_client):
+def test_unfollow_feed(bob_client, bob_user):
     # Create a feed and make Bob follow it
     feed = FeedFactory.create()
-
     # TODO: follow feed using factory
     bob_client.post(f"/api/feeds/{feed.id}/follow")
 

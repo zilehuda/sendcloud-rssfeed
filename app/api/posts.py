@@ -9,6 +9,7 @@ from app.models import Post
 from app.auth.service import get_current_user
 from app.models import User
 from sqlalchemy import event
+from app.services import post_service
 
 router = APIRouter()
 
@@ -22,40 +23,9 @@ async def get_posts(
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    # TODO: need to optimize the queries
-    query = db.query(Post)
-
-    followed_feed_ids = [feed.id for feed in user.feeds]
-
-    if len(followed_feed_ids) == 0:
-        return []
-
-    if feed_id is None:
-        query = query.filter(Post.feed_id.in_(followed_feed_ids))
-    else:
-        if feed_id not in followed_feed_ids:
-            raise HTTPException(
-                status_code=403, detail="User is not following the specified feed"
-            )
-        query = query.filter(Post.feed_id == feed_id)
-
-    user_read_posts_ids = [post.id for post in user.read_posts]
-    if read is not None:
-        # Filter based on read/unread status
-        if read:
-            # Fetch read posts
-            query = query.filter(Post.id.in_(user_read_posts_ids))
-        else:
-            # Fetch unread posts
-            query = query.filter(~Post.id.in_(user_read_posts_ids))
-
-    query = query.order_by(desc(Post.published_at))
-    posts = query.offset(skip).limit(limit).all()
-
-    user_read_posts_ids = set(user_read_posts_ids)
-    for post in posts:
-        post.is_read = post.id in user_read_posts_ids
-
+    posts = post_service.get_posts_for_user_by_filter(
+        db, user, feed_id, skip, limit, read
+    )
     return posts
 
 

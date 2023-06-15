@@ -21,5 +21,5 @@ async def get_current_user(
         algorithms=[JWT_ALGORITHM],
     )
     user_id = payload.get("id")
-    user = db.query(User).get(user_id)
+    user = db.get(User, user_id)
     return user

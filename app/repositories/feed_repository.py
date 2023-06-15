@@ -12,7 +12,7 @@ class FeedRepository:
         return feeds
 
     def get_feed_by_id(self, feed_id: int) -> Feed:
-        return self._db.query(Feed).get(feed_id)
+        return self._db.get(Feed, feed_id)
 
     def add_feed_to_user(self, user: User, feed: Feed) -> None:
         user.feeds.append(feed)
