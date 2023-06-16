@@ -58,27 +58,12 @@ def client(override_dependencies):
 
 @pytest.fixture(scope="function")
 def bob_user(test_app):
-    return UserFactory(email="bob@thebuilder.com")
+    return UserFactory.create(email="bob@thebuilder.com")
 
 
 @pytest.fixture()
-def bob_client(test_app, override_dependencies, bob_user):
-    def override_get_current_user():
-        return bob_user
-
-    def override_jwt_bearer():
-        return None
-
-    test_app.dependency_overrides[get_current_user] = override_get_current_user
-    test_app.dependency_overrides[jwt_bearer] = override_jwt_bearer
-    with TestClient(main_app) as client:
-        yield client
-    del test_app.dependency_overrides[get_current_user]
-    del test_app.dependency_overrides[jwt_bearer]
-
-
-# @pytest.fixture()
-# def bob_client(override_dependencies, bob_user):
-#     access_token = create_access_token({"id": bob_user.id, "email": bob_user.email})
-#     client = TestClient(main_app, headers={"Authorization": f"Bearer {access_token}"})
-#     yield client
+def bob_client(override_dependencies, bob_user):
+    # TODO: better appraoch could be override get_curent_user
+    access_token = create_access_token({"id": bob_user.id, "email": bob_user.email})
+    client = TestClient(main_app, headers={"Authorization": f"Bearer {access_token}"})
+    yield client
