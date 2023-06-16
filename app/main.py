@@ -54,7 +54,7 @@ async def root(db: Session = Depends(get_db)):
     "/hello/{name}",
 )
 async def say_hello(name: str):
-    from app.tasks.refresh_feeds import refresh_feeds
+    from app.tasks import refresh_feeds
 
     task = refresh_feeds.delay()
     print(task)
