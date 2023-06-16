@@ -68,3 +68,4 @@ read: Boolean indicating the read status (true for read, false for unread).
 - complete docker
 - allow user to add feed
 - allow force refresh
+- remove print statements

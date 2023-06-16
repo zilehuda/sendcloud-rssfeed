@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.auth.service import get_current_user
 from app.database import get_db
-from app.models import User
+from app.models import User, Feed
 
 from app.schemas import GetFeedsResponse, ResponseWithMessage
 import app.services.feed_service as feed_service
@@ -22,6 +22,21 @@ async def get_feeds(
 ) -> GetFeedsResponse:
     feeds = feed_service.get_feeds_for_user(db, user, skip, limit)
     return GetFeedsResponse(feeds=feeds)
+
+
+@router.post("/")
+async def create_feed(
+    feed_url: str,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    # TODO: No validation or cleaning yet on feed_url, suppose to get the accurate feed_url
+    # TODO: Response and everything could be improve more
+    task, message = feed_service.create_feed_from_url_for_user(db, user, feed_url)
+    return {
+        "task": task,
+        "message": message,
+    }
 
 
 @router.post("/{feed_id}/follow", response_model=ResponseWithMessage)

@@ -23,11 +23,17 @@ class RSSFeedCreator:
             if len(feed.entries):
                 latest_post_id = feed.entries[0].id
 
+            logo: str = ""
+            if "image" in _feed:
+                logo = _feed.image.href
+            elif "logo" in _feed:
+                logo = _feed.logo
+
             feed_obj: Feed = Feed(  # type: ignore[misc]
                 title=_feed.title,
                 website=_feed.link,
                 feed_url=self.feed_url,
-                logo=_feed.image.href,
+                logo=logo,
                 latest_post_id=latest_post_id,
             )
 
