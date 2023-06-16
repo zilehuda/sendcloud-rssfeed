@@ -34,11 +34,9 @@ def get_posts_for_user_by_filter(
     post_repository = PostRepository(db)
 
     posts = post_repository.get_posts_by_filter(
-        user,
         skip,
         limit,
         read,
-        feed_id,
         followed_feed_ids,
         user_read_posts_ids,
     )

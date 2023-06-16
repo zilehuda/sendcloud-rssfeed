@@ -10,11 +10,9 @@ from app.utils.base_repository import BaseRepository
 class PostRepository(BaseRepository):
     def get_posts_by_filter(
         self,
-        user: User,
         skip: int,
         limit: int,
         read: Optional[bool],
-        feed_id: Optional[int],
         followed_feed_ids: Optional[list[int]],
         user_read_posts_ids: Optional[list[int]],
     ):
