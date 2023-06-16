@@ -11,7 +11,6 @@ def refresh_feed(self, feed_id: int):
     try:
         db = next(get_db())
         feed = db.query(Feed).filter_by(id=feed_id).first()
-        raise Exception("intentionally")
         if feed:
             rss_feed_service = RSSFeedUpdater(db, feed.id)
             rss_feed_service.fetch_and_update_feed()
