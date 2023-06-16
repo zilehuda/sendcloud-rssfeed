@@ -1,12 +1,12 @@
 from typing import Optional
 
-from app.models import Feed, User
-from sqlalchemy.orm import Session
 from fastapi import HTTPException
+from sqlalchemy.orm import Session
 
+from app import tasks as app_tasks
+from app.models import Feed, User
 from app.repositories.feed_repository import FeedRepository
 from app.repositories.user_repository import UserRepository
-from app import tasks as app_tasks
 
 
 def get_feeds_for_user(db: Session, user: User, skip: int = 0, limit: int = 10):

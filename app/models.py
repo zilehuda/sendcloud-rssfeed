@@ -1,13 +1,7 @@
 from __future__ import annotations
-from sqlalchemy import (
-    Column,
-    DateTime,
-    ForeignKey,
-    Integer,
-    String,
-    Text,
-)
-from sqlalchemy.orm import relationship, Mapped
+
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, String, Text
+from sqlalchemy.orm import Mapped, relationship
 from sqlalchemy_utils import EmailType, URLType
 
 from app.constants import FetchStatus

@@ -1,7 +1,9 @@
-from sqlalchemy.orm import Session
-from app.models import Post, User
 from typing import Optional
+
 from sqlalchemy import desc
+from sqlalchemy.orm import Session
+
+from app.models import Post, User
 
 
 class PostRepository:

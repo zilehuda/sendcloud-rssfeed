@@ -1,12 +1,9 @@
-from app.celery import celery
-
-from app.database import get_db
-from app.models import Feed
-from app.services.rss_feed_services import (
-    RSSFeedUpdater,
-)
 from celery.utils.log import get_task_logger
 
+from app.celery import celery
+from app.database import get_db
+from app.models import Feed
+from app.services.rss_feed_services import RSSFeedUpdater
 
 logger = get_task_logger(__name__)
 

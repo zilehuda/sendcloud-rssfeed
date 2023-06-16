@@ -1,6 +1,7 @@
+from typing import Optional
+
 import feedparser
 from feedparser import FeedParserDict
-from typing import Optional
 
 
 class RSSFeedFetcher:

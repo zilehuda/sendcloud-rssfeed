@@ -1,6 +1,6 @@
 import time
 from datetime import datetime, timedelta
-from typing import Union
+from typing import Any, Union
 
 from jose import jwt
 from passlib.context import CryptContext
@@ -8,7 +8,6 @@ from passlib.context import CryptContext
 from app.config import settings
 
 from .constants import JWT_ALGORITHM
-from typing import Any
 
 SECRET_KEY = settings.SECRET_KEY
 

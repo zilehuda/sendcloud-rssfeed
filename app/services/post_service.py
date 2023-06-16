@@ -1,8 +1,10 @@
-from app.models import User
-from sqlalchemy.orm import Session
-from fastapi import HTTPException
-from app.repositories.post_repository import PostRepository
 from typing import Optional
+
+from fastapi import HTTPException
+from sqlalchemy.orm import Session
+
+from app.models import User
+from app.repositories.post_repository import PostRepository
 
 
 def get_posts_for_user_by_filter(

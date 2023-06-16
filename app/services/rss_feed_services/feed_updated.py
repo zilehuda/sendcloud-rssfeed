@@ -5,8 +5,9 @@ from feedparser import FeedParserDict
 from sqlalchemy.orm import Session
 
 from app.models import Feed, Post
-from .feed_fetcher import RSSFeedFetcher
+
 from ...repositories.feed_repository import FeedRepository
+from .feed_fetcher import RSSFeedFetcher
 
 
 class RSSFeedUpdater:

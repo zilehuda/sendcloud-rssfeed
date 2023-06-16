@@ -1,3 +1,5 @@
+from typing import Optional, Union
+
 from fastapi import Depends
 from jose import jwt
 from sqlalchemy.orm import Session
@@ -8,7 +10,6 @@ from app.models import User
 
 from .constants import JWT_ALGORITHM
 from .jwt_bearer import JWTBearer
-from typing import Union, Optional
 
 
 async def get_current_user(

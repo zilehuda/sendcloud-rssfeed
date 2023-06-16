@@ -7,10 +7,7 @@ from app.api.posts import router as post_router
 from app.auth.jwt_bearer import JWTBearer
 from app.database import get_db
 from app.models import Feed
-from app.services.rss_feed_services import (
-    RSSFeedFetcher,
-    RSSFeedUpdater,
-)
+from app.services.rss_feed_services import RSSFeedFetcher, RSSFeedUpdater
 
 # Base.metadata.create_all(bind=engine)
 

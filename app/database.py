@@ -1,7 +1,7 @@
 from typing import Generator
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import Session, sessionmaker, declarative_base
+from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///./rssfeed.sqlite"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"

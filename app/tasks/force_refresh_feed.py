@@ -1,9 +1,8 @@
-from app.celery import celery
-
-from app.database import get_db
-from app.services.feed_manager_service import force_update_feed
 from celery.utils.log import get_task_logger
 
+from app.celery import celery
+from app.database import get_db
+from app.services.feed_manager_service import force_update_feed
 
 logger = get_task_logger(__name__)
 
