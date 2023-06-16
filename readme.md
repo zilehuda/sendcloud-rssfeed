@@ -67,8 +67,12 @@ read: Boolean indicating the read status (true for read, false for unread).
 - good to have: async ORM and functions
 - recheck requirements txt
 - complete docker
-- allow user to add feed
-- allow force refresh
+~~- allow user to add feed~~
+~~- allow force refresh~~
 - remove print statements
 - clean print and unused import
 - delete test db
+- fetch feed only complete and run task
+- skip force refresh if retrying
+- skip rss_feed_services into repositories
+- write test for rss_feed_service
