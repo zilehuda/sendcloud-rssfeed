@@ -11,10 +11,10 @@ from .feed_fetcher import RSSFeedFetcher
 
 
 class RSSFeedCreator:
-    def __init__(self, feed_url: str, fetcher: RSSFeedFetcher, db: Session) -> None:
+    def __init__(self, db: Session, feed_url: str) -> None:
         self.feed_url = feed_url
         self._db = db
-        self._fetcher = fetcher
+        self._fetcher = RSSFeedFetcher(self.feed_url)
 
     def _save_feed(self, feed: FeedParserDict) -> Feed:
         try:

@@ -57,10 +57,11 @@ read: Boolean indicating the read status (true for read, false for unread).
 
 
 # Remaining
+- update creator feed
 - retries in feedparser
 - try catch in feedparser
 - proper logging and try catch
-- implement celery with rabbitmq and 2,5,8 retries
+~~- implement celery with rabbitmq and 2,5,8 retries~~
 - add a field to feed which tell the job status and do not run another job if old one is running
 - proper typing
 - test coverage using pytest and factory_boy

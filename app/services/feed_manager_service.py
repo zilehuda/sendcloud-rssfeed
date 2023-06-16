@@ -3,13 +3,15 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from app.models import Feed
-from app.services.rss_feed_services import (RSSFeedCreator, RSSFeedFetcher,
-                                            RSSFeedUpdater)
+from app.services.rss_feed_services import (
+    RSSFeedCreator,
+    RSSFeedFetcher,
+    RSSFeedUpdater,
+)
 
 
 def fetch_feed(db: Session, feed_url: str) -> Optional[Feed]:
-    feed_fetcher = RSSFeedFetcher(feed_url)
-    rss_feed_service = RSSFeedCreator(feed_url, feed_fetcher, db)
+    rss_feed_service = RSSFeedCreator(db, feed_url)
     feed = rss_feed_service.fetch_and_save_feed()
     return feed
 

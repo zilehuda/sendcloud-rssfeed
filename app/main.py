@@ -46,7 +46,7 @@ async def root(db: Session = Depends(get_db)):
     # feeds = db.query(Feed).all()
     feed = db.query(Feed).filter_by(id=1).first()
 
-    rss_feed_service = RSSFeedCreator(feed_url, feed_fetcher, db)
+    rss_feed_service = RSSFeedCreator(db, feed_url)
     rss_feed_service.fetch_and_save_feed()
     # feeds = db.query(Feed).all()
     # rss_feed_service = RSSFeedUpdater(db, feed.id)
