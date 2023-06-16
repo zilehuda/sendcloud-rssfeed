@@ -1,5 +1,4 @@
 from sqlalchemy.orm import Session
-from typing import List
 from app.models import Post, User
 from typing import Optional
 from sqlalchemy import desc

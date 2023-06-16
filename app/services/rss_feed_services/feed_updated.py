@@ -1,12 +1,10 @@
 from datetime import datetime, timezone
 from time import mktime
 
-import feedparser
 from feedparser import FeedParserDict
 from sqlalchemy.orm import Session
 
 from app.models import Feed, Post
-from typing import Optional
 from .feed_fetcher import RSSFeedFetcher
 from ...repositories.feed_repository import FeedRepository
 

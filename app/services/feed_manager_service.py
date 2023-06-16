@@ -1,7 +1,6 @@
 from sqlalchemy.orm import Session
 from typing import Optional
 from app.models import Feed
-from app.repositories.feed_repository import FeedRepository
 from app.services.rss_feed_services import (
     RSSFeedFetcher,
     RSSFeedCreator,

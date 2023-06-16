@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from typing import List, Optional
-from app.models import Feed, User
+from typing import Optional
+from app.models import Feed
 
 
 class FeedRepository:

@@ -1,4 +1,4 @@
-from app.models import Feed, User
+from app.models import User
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
 from app.repositories.post_repository import PostRepository

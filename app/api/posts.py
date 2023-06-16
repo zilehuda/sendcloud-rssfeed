@@ -1,14 +1,11 @@
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy import desc
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.models import Post
 from app.auth.service import get_current_user
 from app.models import User
-from sqlalchemy import event
 
 from app.schemas import GetPostsResponse, ResponseWithMessage
 from app.services import post_service

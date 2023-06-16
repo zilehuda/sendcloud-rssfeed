@@ -6,7 +6,6 @@ from fastapi import HTTPException
 
 from app.repositories.feed_repository import FeedRepository
 from app.repositories.user_repository import UserRepository
-from app.services.rss_feed_services import RSSFeedFetcher, RSSFeedCreator
 from app import tasks as app_tasks
 
 

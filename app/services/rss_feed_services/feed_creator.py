@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 from time import mktime
 
-import feedparser
 from feedparser import FeedParserDict
 from sqlalchemy.orm import Session
 

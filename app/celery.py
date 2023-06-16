@@ -1,7 +1,6 @@
 from celery import Celery
-from celery.schedules import crontab, schedule
+from celery.schedules import crontab
 
-import time
 
 print("NAME: ", __name__)
 celery = Celery(__name__)
