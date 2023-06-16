@@ -12,7 +12,7 @@ from tests.factories import FeedFactory
 from tests.mock_responses import mock_rss_feed_response
 
 
-@patch("app.services.rss_feed_services.feed_updater.RSSFeedFetcher.fetch_feed")
+@patch("app.services.rss_feed_services.feed_updater.RSSFeedFetcher")
 def test_fetch_and_update_feed(mock_fetcher, db_session):
     # Create a mock feed object
     feed_id = 1
@@ -33,7 +33,8 @@ def test_fetch_and_update_feed(mock_fetcher, db_session):
     mock_rss_feed_response["entries"] = mock_feed_entries
 
     # Configure the mock fetch feed function to return the mock feed response
-    mock_fetcher.return_value = mock_rss_feed_response
+    mock_fetcher_instance = mock_fetcher.return_value
+    mock_fetcher_instance.fetch_feed.return_value = mock_rss_feed_response
 
     # Create an instance of the RSSFeedUpdater
     updater = RSSFeedUpdater(db_session, feed_id)
@@ -42,7 +43,7 @@ def test_fetch_and_update_feed(mock_fetcher, db_session):
     updater.fetch_and_update_feed()
 
     # Check that the fetch_feed method was called with the correct URL
-    mock_fetcher.assert_called_once_with()
+    mock_fetcher_instance.fetch_feed.assert_called_once()
 
     # Check that the feed entries were updated in the database
     assert len(db_session.query(Post).all()) == len(mock_feed_entries)
