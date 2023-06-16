@@ -9,6 +9,7 @@ from ...constants import FetchStatus
 
 from ...repositories.feed_repository import FeedRepository
 from .feed_fetcher import RSSFeedFetcher
+from ...repositories.post_repository import PostRepository
 
 
 class RSSFeedUpdater:
@@ -27,6 +28,8 @@ class RSSFeedUpdater:
     def _update_feed(self, feed_obj: Feed, feed_entries: FeedParserDict) -> None:
         try:
             latest_post_id = feed_obj.latest_post_id
+
+            post_objs: list[Post] = []
             for entry in feed_entries:
                 if latest_post_id and entry["id"] == latest_post_id:
                     break
@@ -42,12 +45,16 @@ class RSSFeedUpdater:
                     ),
                     feed_id=feed_obj.id,
                 )
-                self._db.add(post_obj)
+                post_objs.append(post_obj)
+
+            post_repository = PostRepository(self._db)
+            post_repository.create_posts(post_objs)
 
             if len(feed_entries) > 0:
                 latest_post_id = feed_entries[0]["id"]
 
             # Update the latest_post_id in the Feed table
+            # TODO: move it into repository
             feed_obj.latest_post_id = latest_post_id
             feed_obj.fetch_status = FetchStatus.COMPLETED.value
             self._db.commit()

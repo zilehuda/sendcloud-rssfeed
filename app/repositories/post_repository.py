@@ -47,3 +47,7 @@ class PostRepository:
 
     def get_post_by_id(self, post_id: int) -> Post:
         return self._db.get(Post, post_id)
+
+    def create_posts(self, posts: list[Post]) -> None:
+        self._db.add_all(posts)
+        self._db.commit()
