@@ -70,3 +70,5 @@ read: Boolean indicating the read status (true for read, false for unread).
 - allow user to add feed
 - allow force refresh
 - remove print statements
+- clean print and unused import
+- delete test db

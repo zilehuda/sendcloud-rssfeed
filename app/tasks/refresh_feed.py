@@ -18,20 +18,6 @@ from datetime import timedelta
 logger = get_task_logger(__name__)
 
 
-@celery.task(name="fetch_and_assign_feed_to_user")
-def fetch_and_assign_feed_to_user(user_id, feed_url):
-    db = next(get_db())
-    feed: Optional[Feed] = fetch_feed(db, feed_url)
-    if feed:
-        assign_feed_to_user(db, user_id, feed)
-
-
-@celery.task(name="force_refresh_feed")
-def force_refresh_feed(feed_id):
-    db = next(get_db())
-    force_update_feed(db, feed_id)
-
-
 @celery.task(bind=True, name="refresh_feed")
 def refresh_feed(self, feed_id: int):
     try:
@@ -47,12 +33,3 @@ def refresh_feed(self, feed_id: int):
         if retry_count < len(delays):
             delay = delays[self.request.retries]
             self.retry(exc=exc, countdown=delay)
-
-
-@celery.task(name="refresh_feeds")
-def refresh_feeds():
-    db = next(get_db())
-    feeds = db.query(Feed).all()
-    for feed in feeds:
-        print("haha")
-        refresh_feed.delay(feed.id)
