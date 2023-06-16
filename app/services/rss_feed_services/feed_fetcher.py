@@ -5,7 +5,7 @@ from feedparser import FeedParserDict
 
 
 class RSSFeedFetcher:
-    def __init__(self, feed_url: str) -> None:
+    def __init__(self, feed_url: str) -> dict:
         self._feed_url = feed_url
 
     """
@@ -16,7 +16,7 @@ class RSSFeedFetcher:
 
     def fetch_feed(self) -> Optional[FeedParserDict]:
         feed = feedparser.parse(self._feed_url)
-        if "bozo" in feed and feed.bozo:
+        if "bozo" in feed and feed["bozo"]:
             raise HTTPException(
                 status_code=400, detail="The RSS feed provided is invalid."
             )

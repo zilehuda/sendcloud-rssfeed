@@ -46,7 +46,6 @@ async def root(db: Session = Depends(get_db)):
     feed_fetcher = RSSFeedFetcher(feed_url)
     feedi = feed_fetcher.fetch_feed()
     # if len(feedi.entries) == 0:
-    return "OK"
     return feedi
     # feeds = db.query(Feed).all()
     feed = db.query(Feed).filter_by(id=1).first()

@@ -8,11 +8,12 @@ from app.auth.jwt_handler import create_access_token
 from app.database import Base, get_db
 from app.main import app as main_app
 import pytest
-
+from unittest.mock import patch
 from app.models import User
 from testdbconfig import engine, TestingSessionLocal
 from tests.factories import UserFactory
 from app.auth.service import get_current_user
+from tests.mock_responses import mock_rss_feed
 
 
 @pytest.fixture(scope="function")
@@ -67,3 +68,11 @@ def bob_client(override_dependencies, bob_user):
     access_token = create_access_token({"id": bob_user.id, "email": bob_user.email})
     client = TestClient(main_app, headers={"Authorization": f"Bearer {access_token}"})
     yield client
+
+
+@pytest.fixture
+def mock_feedparser_parse():
+    with patch("app.services.rss_feed_services.feed_fetcher.feedparser.parse") as mock:
+        # Mock the return value of the parse function
+        mock.return_value = mock_rss_feed
+        yield mock
