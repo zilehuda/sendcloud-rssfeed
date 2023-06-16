@@ -12,6 +12,8 @@ from sqlalchemy import (
 from sqlalchemy.orm import relationship, Mapped
 from sqlalchemy_utils import EmailType, URLType
 from typing import Optional
+
+from app.constants import FetchStatus
 from app.database import Base
 from app.utils.base_model import BaseModel
 
@@ -52,6 +54,12 @@ class Feed(BaseModel):
         "User", secondary=UserFeed.__tablename__, back_populates="feeds"
     )
     latest_post_id: None = Column(String, default=None, nullable=True)
+    fetch_status = Column(
+        String,
+        default=FetchStatus.COMPLETED.value,
+        nullable=False,
+        server_default=FetchStatus.COMPLETED.value,
+    )
 
 
 class Post(BaseModel):
