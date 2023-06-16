@@ -86,3 +86,10 @@ def force_refresh_feed(db: Session, user: User, feed_id: int):
 
     task = app_tasks.force_refresh_feed.delay(feed.id)
     return task.id, "The update process for feeds has been initiated."
+
+
+def change_feed_fetch_status(db: Session, feed_id, fetch_status: FetchStatus) -> None:
+    feed_repository = FeedRepository(db)
+    feed: Feed = feed_repository.get_feed_by_id(feed_id)
+    feed.fetch_status = fetch_status.value
+    db.commit()
