@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.models import Feed, Post
 
 from .feed_fetcher import RSSFeedFetcher
+from ...repositories.feed_repository import FeedRepository
 
 
 class RSSFeedCreator:
@@ -37,7 +38,7 @@ class RSSFeedCreator:
                 latest_post_id=latest_post_id,
             )
 
-            self._db.add(feed_obj)
+            post_objs: list[Post] = []
             for entry in feed["entries"]:
                 post_obj = Post(
                     post_id=entry["id"],
@@ -51,9 +52,10 @@ class RSSFeedCreator:
                     ),
                     feed=feed_obj,
                 )
-                self._db.add(post_obj)
-            self._db.commit()
-            self._db.refresh(feed_obj)
+                post_objs.append(post_obj)
+
+            feed_repository = FeedRepository(self._db)
+            feed_repository.create_feed_with_posts(feed_obj, post_objs)
             return feed_obj
         except Exception as e:
             raise e

@@ -37,11 +37,11 @@ class PostRepository:
 
         return posts
 
-    def mark_post_as_read(self, user: User, post: Post):
+    def mark_post_as_read(self, user: User, post: Post) -> None:
         user.read_posts.append(post)
         self._db.commit()
 
-    def mark_post_as_unread(self, user: User, post: Post):
+    def mark_post_as_unread(self, user: User, post: Post) -> None:
         user.read_posts.remove(post)
         self._db.commit()
 
