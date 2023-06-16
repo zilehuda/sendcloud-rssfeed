@@ -57,23 +57,24 @@ read: Boolean indicating the read status (true for read, false for unread).
 
 
 # Remaining
-- update creator feed
-- retries in feedparser
-- try catch in feedparser
+~~- update creator feed~~
+- ~~retries in feedparser~~ isntead raise
+- ~~try catch in feedparser~~
 - proper logging and try catch
 ~~- implement celery with rabbitmq and 2,5,8 retries~~
-- add a field to feed which tell the job status and do not run another job if old one is running
+- ~~add a field to feed which tell the job status and do not run another job if old one is running~~
 - proper typing
 - test coverage using pytest and factory_boy
 - good to have: async ORM and functions
 - recheck requirements txt
 - complete docker
-~~- allow user to add feed~~
-~~- allow force refresh~~
+- ~~allow user to add feed~~
+- ~~allow force refresh~~
 - remove print statements
 - clean print and unused import
 - delete test db
-- fetch feed only complete and run task
-- skip force refresh if retrying
+- ~~fetch feed only complete and run task~~
+- ~~skip force refresh if retrying~~
 - skip rss_feed_services into repositories
 - write test for rss_feed_service
+- divide auth into service and repo

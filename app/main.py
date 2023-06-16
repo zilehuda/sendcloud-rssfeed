@@ -41,8 +41,12 @@ app.include_router(
 @app.get("/")
 async def root(db: Session = Depends(get_db)):
     feed_url = "https://feeds.feedburner.com/tweakers/mixed"
+    # feed_url = "https://google.com/"
     feed_fetcher = RSSFeedFetcher(feed_url)
-
+    feedi = feed_fetcher.fetch_feed()
+    # if len(feedi.entries) == 0:
+    return "OK"
+    return feedi
     # feeds = db.query(Feed).all()
     feed = db.query(Feed).filter_by(id=1).first()
 
