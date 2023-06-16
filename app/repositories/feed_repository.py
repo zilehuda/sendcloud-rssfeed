@@ -3,12 +3,10 @@ from typing import Optional
 from sqlalchemy.orm import Session
 
 from app.models import Feed, Post
+from app.utils.base_repository import BaseRepository
 
 
-class FeedRepository:
-    def __init__(self, db: Session):
-        self._db = db
-
+class FeedRepository(BaseRepository):
     def get_feeds(self, skip: int = 0, limit: int = 10) -> list[Feed]:
         feeds = self._db.query(Feed).offset(skip).limit(limit).all()
         return feeds

@@ -4,12 +4,10 @@ from sqlalchemy import desc
 from sqlalchemy.orm import Session
 
 from app.models import Post, User
+from app.utils.base_repository import BaseRepository
 
 
-class PostRepository:
-    def __init__(self, db: Session):
-        self._db = db
-
+class PostRepository(BaseRepository):
     def get_posts_by_filter(
         self,
         user: User,

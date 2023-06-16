@@ -1,12 +1,10 @@
 from sqlalchemy.orm import Session
 
 from app.models import Feed, User
+from app.utils.base_repository import BaseRepository
 
 
-class UserRepository:
-    def __init__(self, db: Session):
-        self._db = db
-
+class UserRepository(BaseRepository):
     def get_user_by_id(self, user_id: int) -> User:
         return self._db.get(User, user_id)
 
