@@ -14,7 +14,7 @@ def test_fetch_feed(mock_feedparser_parse):
     mock_feedparser_parse.assert_called_once_with(feed_url)
     assert isinstance(result, dict)
     # Assert that the result matches the expected feed data
-    assert result["feed"]["feed_title"] == "Example Feed"
+    assert result["feed"]["title"] == "Example Feed"
     assert len(result.get("entries")) == 2
 
     assert (

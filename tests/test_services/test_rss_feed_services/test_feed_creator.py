@@ -4,7 +4,7 @@ from app.services.rss_feed_services.feed_creator import RSSFeedCreator
 from app.models import Feed, Post
 from sqlalchemy.orm import sessionmaker
 from testdbconfig import TestingSessionLocal
-from tests.mock_responses import mock_rss_feed
+from tests.mock_responses import mock_rss_feed_response
 
 
 @patch("app.services.rss_feed_services.feed_creator.RSSFeedFetcher")
@@ -12,7 +12,7 @@ def test_fetch_and_save_feed(mock_fetcher, db_session):
     # Mock the RSSFeedFetcher instance and its fetch_feed method
 
     mock_fetcher_instance = mock_fetcher.return_value
-    mock_fetcher_instance.fetch_feed.return_value = mock_rss_feed
+    mock_fetcher_instance.fetch_feed.return_value = mock_rss_feed_response
 
     # Create a mock Session
     mock_session = TestingSessionLocal()

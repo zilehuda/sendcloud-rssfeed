@@ -28,16 +28,16 @@ class RSSFeedUpdater:
         try:
             latest_post_id = feed_obj.latest_post_id
             for entry in feed_entries:
-                if latest_post_id and entry.id == latest_post_id:
+                if latest_post_id and entry["id"] == latest_post_id:
                     break
                 post_obj = Post(
-                    post_id=entry.id,
-                    title=entry.title,
-                    summary=entry.summary,
-                    author=entry.author,
-                    post_url=entry.link,
+                    post_id=entry["id"],
+                    title=entry["title"],
+                    summary=entry["summary"],
+                    author=entry["author"],
+                    post_url=entry["link"],
                     published_at=datetime.fromtimestamp(
-                        mktime(entry.published_parsed),
+                        mktime(entry["published_parsed"]),
                         timezone.utc,
                     ),
                     feed_id=feed_obj.id,
@@ -45,7 +45,7 @@ class RSSFeedUpdater:
                 self._db.add(post_obj)
 
             if len(feed_entries) > 0:
-                latest_post_id = feed_entries[0].id
+                latest_post_id = feed_entries[0]["id"]
 
             # Update the latest_post_id in the Feed table
             feed_obj.latest_post_id = latest_post_id
@@ -63,5 +63,5 @@ class RSSFeedUpdater:
         if fetched_feed:
             self._update_feed(
                 self._feed_obj,
-                fetched_feed.entries,
+                fetched_feed["entries"],
             )

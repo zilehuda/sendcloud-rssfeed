@@ -1,4 +1,4 @@
-mock_rss_feed = {
+mock_rss_feed_response = {
     "feed": {
         "title": "Example Feed",
         "link": "https://example.com",
