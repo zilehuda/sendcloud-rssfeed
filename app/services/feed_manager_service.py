@@ -16,7 +16,7 @@ def fetch_feed(db: Session, feed_url: str) -> Optional[Feed]:
     return feed
 
 
-def update_feed(
+def force_update_feed(
     db: Session,
     feed_id: str,
 ) -> Optional[Feed]:
