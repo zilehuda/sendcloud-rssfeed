@@ -52,6 +52,11 @@ class ResponseWithMessage(BaseModel):
     message: str
 
 
+class ResponseWithTaskIdAndMessage(BaseModel):
+    task_id: str
+    message: str
+
+
 class Post(BaseModel):
     title: str
     post_id: str

@@ -7,7 +7,7 @@ from fastapi import HTTPException
 from app.repositories.feed_repository import FeedRepository
 from app.repositories.user_repository import UserRepository
 from app.services.rss_feed_services import RSSFeedFetcher, RSSFeedCreator
-from app.tasks import fetch_and_assign_feed_to_user
+from app import tasks as app_tasks
 
 
 def get_feeds_for_user(db: Session, user: User, skip: int = 0, limit: int = 10):
@@ -67,5 +67,19 @@ def create_feed_from_url_for_user(
 
         return None, "User started following the feed"
 
-    task = fetch_and_assign_feed_to_user.delay(user.id, feed_url)
+    task = app_tasks.fetch_and_assign_feed_to_user.delay(user.id, feed_url)
     return task.id, "Fetching the feed has been started"
+
+
+def force_refresh_feed(db: Session, user: User, feed_id: int):
+    feed_repository = FeedRepository(db)
+    feed: Feed = feed_repository.get_feed_by_id(feed_id)
+
+    if feed is None:
+        raise HTTPException(status_code=404, detail="Feed not found")
+
+    if feed not in user.feeds:
+        raise HTTPException(status_code=400, detail="You are not following this feed")
+
+    task = app_tasks.force_refresh_feed.delay(feed.id)
+    return task.id, "The update process for feeds has been initiated."

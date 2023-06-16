@@ -16,7 +16,7 @@ from app.services.rss_feed_services import (
 
 # Base.metadata.create_all(bind=engine)
 
-app = FastAPI()
+app = FastAPI(swagger_ui_parameters={"displayRequestDuration": True})
 
 app.include_router(
     auth_router,
@@ -45,13 +45,13 @@ async def root(db: Session = Depends(get_db)):
     feed_fetcher = RSSFeedFetcher(feed_url)
 
     # feeds = db.query(Feed).all()
-    # feed = db.query(Feed).filter_by(id=1).first()
+    feed = db.query(Feed).filter_by(id=1).first()
 
-    rss_feed_service = RSSFeedCreator(feed_url, feed_fetcher, db)
-    rss_feed_service.fetch_and_save_feed()
-    feeds = db.query(Feed).all()
-    # rss_feed_service = RSSFeedUpdater(feed.id, feed_fetcher, db)
-    # rss_feed_service.fetch_and_update_feed()
+    # rss_feed_service = RSSFeedCreator(feed_url, feed_fetcher, db)
+    # rss_feed_service.fetch_and_save_feed()
+    # feeds = db.query(Feed).all()
+    rss_feed_service = RSSFeedUpdater(db, feed.id)
+    rss_feed_service.fetch_and_update_feed()
     return {"msg": "done"}
 
 

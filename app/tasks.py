@@ -3,7 +3,7 @@ import time
 
 from app.database import get_db
 from app.models import Feed
-from app.services.feed_manager_service import fetch_feed
+from app.services.feed_manager_service import fetch_feed, update_feed
 from app.services.rss_feed_services import (
     RSSFeedFetcher,
     RSSFeedUpdater,
@@ -23,6 +23,12 @@ def fetch_and_assign_feed_to_user(user_id, feed_url):
     feed: Optional[Feed] = fetch_feed(db, feed_url)
     if feed:
         assign_feed_to_user(db, user_id, feed)
+
+
+@celery.task(name="force_refresh_feed")
+def force_refresh_feed(feed_id):
+    db = next(get_db())
+    update_feed(db, feed_id)
 
 
 @celery.task(name="refresh_feed")

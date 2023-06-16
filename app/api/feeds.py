@@ -5,7 +5,11 @@ from app.auth.service import get_current_user
 from app.database import get_db
 from app.models import User, Feed
 
-from app.schemas import GetFeedsResponse, ResponseWithMessage
+from app.schemas import (
+    GetFeedsResponse,
+    ResponseWithMessage,
+    ResponseWithTaskIdAndMessage,
+)
 import app.services.feed_service as feed_service
 from app.config import get_settings, Settings
 from typing import Annotated
@@ -57,3 +61,19 @@ async def unfollow_feed(
 ) -> ResponseWithMessage:
     feed_service.unfollow_feed(db, user, feed_id)
     return ResponseWithMessage(message="Successfully unfollowed the feed")
+
+
+"""
+NOTE: If a user performs a force refresh on a feed, 
+the updated posts from that feed will be visible to all users.
+"""
+
+
+@router.post("/{feed_id}/force-refresh", response_model=ResponseWithTaskIdAndMessage)
+async def force_refresh_feed(
+    feed_id: int,
+    db: Session = Depends(get_db),
+    user: User = Depends(get_current_user),
+) -> ResponseWithTaskIdAndMessage:
+    task_id, message = feed_service.force_refresh_feed(db, user, feed_id)
+    return ResponseWithTaskIdAndMessage(task_id=task_id, message=message)
