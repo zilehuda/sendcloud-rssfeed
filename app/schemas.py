@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from typing import Optional
 from pydantic import BaseModel, EmailStr, Field
 
 
@@ -54,7 +54,7 @@ class ResponseWithMessage(BaseModel):
 
 
 class ResponseWithTaskIdAndMessage(BaseModel):
-    task_id: str
+    task_id: Optional[str]
     message: str
 
 

@@ -4,6 +4,7 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app import tasks as app_tasks
+from app.constants import FetchStatus
 from app.models import Feed, User
 from app.repositories.feed_repository import FeedRepository
 from app.repositories.user_repository import UserRepository
@@ -79,6 +80,9 @@ def force_refresh_feed(db: Session, user: User, feed_id: int):
 
     if feed not in user.feeds:
         raise HTTPException(status_code=400, detail="You are not following this feed")
+
+    if feed.fetch_status == FetchStatus.RETRYING.value:
+        return None, "The process of retrieving feed updates is currently in progress."
 
     task = app_tasks.force_refresh_feed.delay(feed.id)
     return task.id, "The update process for feeds has been initiated."

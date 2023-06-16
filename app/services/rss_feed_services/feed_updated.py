@@ -49,7 +49,7 @@ class RSSFeedUpdater:
 
             # Update the latest_post_id in the Feed table
             feed_obj.latest_post_id = latest_post_id
-            feed_obj.fetch_status = FetchStatus.COMPLETED.vallue
+            feed_obj.fetch_status = FetchStatus.COMPLETED.value
             self._db.commit()
 
             print("Feed entries updated successfully.")
