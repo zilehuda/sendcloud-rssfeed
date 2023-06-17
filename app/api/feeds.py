@@ -7,8 +7,11 @@ import app.services.feed_service as feed_service
 from app.auth.service import get_current_user
 from app.database import get_db
 from app.models import User
-from app.schemas import (GetFeedsResponse, ResponseWithMessage,
-                         ResponseWithTaskIdAndMessage)
+from app.schemas import (
+    GetFeedsResponse,
+    ResponseWithMessage,
+    ResponseWithTaskIdAndMessage,
+)
 
 router = APIRouter()
 
@@ -37,7 +40,6 @@ async def create_feed(
     """ "
     TODO: No validation or cleaning yet on feed_url, suppose to get the
     accurate feed_url.
-    TODO: Response and everything could be improve more
     """
     logger.info(f"Create feed request received. feed_url={feed_url}")
     task_id, message = feed_service.create_feed_from_url_for_user(db, user, feed_url)

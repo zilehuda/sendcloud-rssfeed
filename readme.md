@@ -56,6 +56,9 @@ Request body:
 read: Boolean indicating the read status (true for read, false for unread).
 
 
+- docker-compose run --rm api alembic revision --autogenerate -m "create inital tables"
+- docker-compose run --rm api alembic upgrade head
+
 # Remaining
 ~~- update creator feed~~
 - ~~retries in feedparser~~ isntead raise

@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     """
 
     SECRET_KEY: Optional[str] = "SECRET_KEY"
+    DATABASE_URL: str
 
     class Config:
         env_file: str = ".env"

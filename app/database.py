@@ -2,18 +2,13 @@ from typing import Generator
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
+from .config import settings
 
-SQLALCHEMY_DATABASE_URL = "sqlite:///./rssfeed.sqlite"
+# SQLALCHEMY_DATABASE_URL = "sqlite:///./rssfeed.sqlite"
 # SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+DATABASE_URL = settings.DATABASE_URL
 
-# Enable logging
-# logging.basicConfig()
-# logging.getLogger("sqlalchemy.engine").setLevel(logging.INFO)
-
-
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
