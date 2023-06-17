@@ -8,8 +8,6 @@ app = Celery(__name__)
 app.conf.broker_url = os.environ.get("CELERY_BROKER_URL")
 app.conf.result_backend = os.environ.get("CELERY_RESULT_BACKEND")
 
-# app.conf.broker_url = "amqp://guest:guest@localhost:5672/"
-# app.conf.result_backend = "rpc://"
 
 app.autodiscover_tasks(["app.tasks"])
 

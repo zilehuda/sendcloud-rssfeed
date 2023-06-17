@@ -70,10 +70,10 @@ read: Boolean indicating the read status (true for read, false for unread).
 - ~~test coverage using pytest and factory_boy~~
 - good to have: async ORM and functions
 - recheck requirements txt
-- complete docker
+- ~~complete docker~~
 - ~~allow user to add feed~~
 - ~~allow force refresh~~
-- remove print statements
+- ~~remove print statements~~
 - clean print and unused import
 - delete test db
 - ~~fetch feed only complete and run task~~
@@ -82,4 +82,4 @@ read: Boolean indicating the read status (true for read, false for unread).
 - ~~write test for rss_feed_service~~
 - ~~divide auth into service and repo~~
 - test for services and repo if got time
-- remove fazol api
+- ~~remove fazol api~~

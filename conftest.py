@@ -59,7 +59,7 @@ def bob_user(test_app):
 
 @pytest.fixture()
 def bob_client(override_dependencies, bob_user):
-    # TODO: better appraoch could be override get_curent_user
+    # TODO: better approach could be override get_curent_user
     access_token = create_access_token({"id": bob_user.id, "email": bob_user.email})
     client = TestClient(main_app, headers={"Authorization": f"Bearer {access_token}"})
     yield client
