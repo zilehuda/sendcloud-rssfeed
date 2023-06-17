@@ -1,8 +1,7 @@
-from datetime import datetime, timezone
 from unittest.mock import patch
+
+from app.models import Feed
 from app.services.rss_feed_services.feed_creator import RSSFeedCreator
-from app.models import Feed, Post
-from sqlalchemy.orm import sessionmaker
 from testdbconfig import TestingSessionLocal
 from tests.mock_responses import mock_rss_feed_response
 

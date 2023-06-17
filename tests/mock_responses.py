@@ -1,3 +1,5 @@
+# ruff: noqa: E501
+
 mock_rss_feed_response = {
     "feed": {
         "title": "Example Feed",

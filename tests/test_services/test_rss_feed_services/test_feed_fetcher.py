@@ -1,7 +1,9 @@
 from unittest.mock import patch
-from fastapi import HTTPException
-from app.services.rss_feed_services.feed_fetcher import RSSFeedFetcher
+
 import pytest
+from fastapi import HTTPException
+
+from app.services.rss_feed_services.feed_fetcher import RSSFeedFetcher
 
 
 def test_fetch_feed(mock_feedparser_parse):

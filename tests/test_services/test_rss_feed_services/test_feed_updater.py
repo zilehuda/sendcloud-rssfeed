@@ -1,9 +1,4 @@
-from datetime import datetime, timezone
-from time import mktime
 from unittest.mock import patch
-
-from feedparser import FeedParserDict
-from sqlalchemy.orm import Session
 
 from app.constants import FetchStatus
 from app.models import Feed, Post
@@ -17,7 +12,7 @@ def test_fetch_and_update_feed(mock_fetcher, db_session):
     # Create a mock feed object
     feed_id = 1
     feed_url = "https://example.com/feed"
-    feed_obj = FeedFactory(id=feed_id, feed_url=feed_url, latest_post_id="123")
+    FeedFactory(id=feed_id, feed_url=feed_url, latest_post_id="123")
 
     # Create a mock feed parser response
     mock_feed_entries = [

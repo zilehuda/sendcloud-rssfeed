@@ -1,13 +1,13 @@
+from unittest.mock import patch
+
+import pytest
 from fastapi.testclient import TestClient
+
 from app.auth.jwt_handler import create_access_token
 from app.database import Base, get_db
 from app.main import app as main_app
-import pytest
-from unittest.mock import patch
-from app.models import User
-from testdbconfig import engine, TestingSessionLocal
+from testdbconfig import TestingSessionLocal, engine
 from tests.factories import UserFactory
-from app.auth.service import get_current_user
 from tests.mock_responses import mock_rss_feed_response
 
 

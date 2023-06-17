@@ -1,6 +1,7 @@
 import factory
 from factory.alchemy import SQLAlchemyModelFactory
-from app.models import User, Feed, Post, UserPostRead, UserFeed
+
+from app.models import Feed, Post, User
 from testdbconfig import TestingSessionLocal
 
 db = TestingSessionLocal()

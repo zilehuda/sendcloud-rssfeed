@@ -1,11 +1,8 @@
-from app.auth.jwt_handler import create_access_token
-from tests.factories import UserFactory, FeedFactory
-from app.models import User
-import pytest
+from tests.factories import FeedFactory, UserFactory
 
 
 def test_get_feeds(bob_client):
-    user = UserFactory()
+    UserFactory()
     FeedFactory.create_batch(10)
 
     # Make a request to the get_feeds endpoint
