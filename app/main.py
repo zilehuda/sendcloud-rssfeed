@@ -22,14 +22,6 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(swagger_ui_parameters={"displayRequestDuration": True})
 
-
-# Log a message using the normalFormatter
-logger.debug("This is a debug message.")
-logger.info("This is an info message.")
-logger.warning("This is a warning message.")
-logger.error("This is an error message.")
-logger.critical("This is a critical message.")
-
 app.include_router(
     auth_router,
     prefix="/auth",

@@ -25,5 +25,4 @@ def get_db() -> Generator[Session, None, None]:
     try:
         yield db
     finally:
-        print("it is closed")
         db.close()

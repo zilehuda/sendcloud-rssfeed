@@ -1,7 +1,6 @@
 from celery import Celery
 from celery.schedules import crontab
 
-print("NAME: ", __name__)
 app = Celery(__name__)
 app.conf.broker_url = "amqp://guest:guest@localhost:5672/"
 app.conf.result_backend = "rpc://"
