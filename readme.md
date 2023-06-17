@@ -15,6 +15,7 @@ Tested the app on the following two feeds.
 ## Directory Structure
 The repository has the following directory structure:
 ````
+├── .env.example
 ├── Dockerfile
 ├── alembic
 │   ├── ...
