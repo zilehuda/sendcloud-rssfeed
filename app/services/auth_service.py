@@ -1,9 +1,12 @@
-from fastapi import HTTPException
 import logging
-from app.auth.jwt_handler import create_access_token, verify_password, get_password_hash
+
+from fastapi import HTTPException
+from sqlalchemy.orm import Session
+
+from app.auth.jwt_handler import (create_access_token, get_password_hash,
+                                  verify_password)
 from app.models import User
 from app.services.user_service import UserRepository
-from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 

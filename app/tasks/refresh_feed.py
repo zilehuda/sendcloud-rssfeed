@@ -4,8 +4,7 @@ from celery.utils.log import get_task_logger
 from app.celery_app import app
 from app.constants import FetchStatus
 from app.database import get_db
-from app.services import feed_service
-from app.services import feed_manager_service
+from app.services import feed_manager_service, feed_service
 
 logger = get_task_logger(__name__)
 

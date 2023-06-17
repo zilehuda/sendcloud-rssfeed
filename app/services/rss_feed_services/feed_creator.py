@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime, timezone
 from time import mktime
 from typing import Optional
@@ -6,11 +7,9 @@ from feedparser import FeedParserDict
 from sqlalchemy.orm import Session
 
 from app.models import Feed, Post
-
-from .feed_fetcher import RSSFeedFetcher
 from app.repositories.feed_repository import FeedRepository
 
-import logging
+from .feed_fetcher import RSSFeedFetcher
 
 logger = logging.getLogger(__name__)
 

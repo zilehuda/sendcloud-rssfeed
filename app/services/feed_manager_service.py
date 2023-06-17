@@ -4,10 +4,7 @@ from sqlalchemy.orm import Session
 
 from app.models import Feed
 from app.repositories.feed_repository import FeedRepository
-from app.services.rss_feed_services import (
-    RSSFeedCreator,
-    RSSFeedUpdater,
-)
+from app.services.rss_feed_services import RSSFeedCreator, RSSFeedUpdater
 
 
 def fetch_feed(db: Session, feed_url: str) -> Optional[Feed]:

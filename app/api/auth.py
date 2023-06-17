@@ -1,10 +1,12 @@
+import logging
+
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.services import auth_service
 from app.database import get_db
-from app.schemas import LoginRequest, RegisterRequest, RegisterResponse, TokenResponse
-import logging
+from app.schemas import (LoginRequest, RegisterRequest, RegisterResponse,
+                         TokenResponse)
+from app.services import auth_service
 
 logger = logging.getLogger(__name__)
 router = APIRouter()

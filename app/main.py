@@ -1,3 +1,6 @@
+import logging
+import sys
+
 from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
 
@@ -7,11 +10,7 @@ from app.api.posts import router as post_router
 from app.auth.jwt_bearer import JWTBearer
 from app.database import get_db
 from app.models import Feed
-from app.services.rss_feed_services import (
-    RSSFeedCreator,
-)
-import logging
-import sys
+from app.services.rss_feed_services import RSSFeedCreator
 
 log_format = "%(asctime)s [%(levelname)s] logger=%(name)s %(funcName)s() L%(lineno)-4d %(message)s"  # noqa
 logging.basicConfig(

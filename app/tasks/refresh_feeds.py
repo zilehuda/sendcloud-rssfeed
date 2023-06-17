@@ -4,6 +4,7 @@ from app.celery_app import app
 from app.constants import FetchStatus
 from app.database import get_db
 from app.models import Feed
+
 from .refresh_feed import refresh_feed
 
 logger = get_task_logger(__name__)

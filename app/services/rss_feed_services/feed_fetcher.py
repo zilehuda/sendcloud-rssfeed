@@ -1,8 +1,9 @@
-from typing import Optional
-from fastapi import HTTPException
-import feedparser
-from feedparser import FeedParserDict
 import logging
+from typing import Optional
+
+import feedparser
+from fastapi import HTTPException
+from feedparser import FeedParserDict
 
 logger = logging.getLogger(__name__)
 
