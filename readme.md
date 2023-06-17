@@ -60,11 +60,11 @@ read: Boolean indicating the read status (true for read, false for unread).
 ~~- update creator feed~~
 - ~~retries in feedparser~~ isntead raise
 - ~~try catch in feedparser~~
-- proper logging and try catch
+- ~~proper logging and try catch~~
 ~~- implement celery with rabbitmq and 2,5,8 retries~~
 - ~~add a field to feed which tell the job status and do not run another job if old one is running~~
 - proper typing
-- test coverage using pytest and factory_boy
+- ~~test coverage using pytest and factory_boy~~
 - good to have: async ORM and functions
 - recheck requirements txt
 - complete docker
@@ -79,3 +79,4 @@ read: Boolean indicating the read status (true for read, false for unread).
 - ~~write test for rss_feed_service~~
 - ~~divide auth into service and repo~~
 - test for services and repo if got time
+- remove fazol api
