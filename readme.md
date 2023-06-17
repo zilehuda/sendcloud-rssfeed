@@ -75,7 +75,7 @@ read: Boolean indicating the read status (true for read, false for unread).
 - delete test db
 - ~~fetch feed only complete and run task~~
 - ~~skip force refresh if retrying~~
-- split rss_feed_services into repositories
+- ~~split rss_feed_services into repositories~~
 - ~~write test for rss_feed_service~~
 - ~~divide auth into service and repo~~
 - test for services and repo if got time

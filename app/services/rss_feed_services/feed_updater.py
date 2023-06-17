@@ -5,11 +5,16 @@ from feedparser import FeedParserDict
 from sqlalchemy.orm import Session
 
 from app.models import Feed, Post
-from ...constants import FetchStatus
+from app.constants import FetchStatus
 
-from ...repositories.feed_repository import FeedRepository
+from app.repositories.feed_repository import FeedRepository
 from .feed_fetcher import RSSFeedFetcher
-from ...repositories.post_repository import PostRepository
+from app.repositories.post_repository import PostRepository
+
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class RSSFeedUpdater:
@@ -59,11 +64,10 @@ class RSSFeedUpdater:
             feed_obj.fetch_status = FetchStatus.COMPLETED.value
             self._db.commit()
 
-            print("Feed entries updated successfully.")
+            logger.info("Feed entries updated successfully.")
         except Exception as e:
+            logger.error(f"Error saving feed entries: {str(e)}")
             raise e
-            # Handle the exception according to your requirements
-            print(f"Error saving feed entries: {str(e)}")
 
     def fetch_and_update_feed(self) -> None:
         fetched_feed: FeedParserDict = self._fetcher.fetch_feed()

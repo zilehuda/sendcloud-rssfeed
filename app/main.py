@@ -12,10 +12,25 @@ from app.services.rss_feed_services import (
     RSSFeedUpdater,
     RSSFeedCreator,
 )
+import logging
+import sys
 
-# Base.metadata.create_all(bind=engine)
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)s] logger=%(name)s %(funcName)s() L%(lineno)-4d %(message)s",
+    handlers=[logging.StreamHandler(sys.stdout)],
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(swagger_ui_parameters={"displayRequestDuration": True})
+
+
+# Log a message using the normalFormatter
+logger.debug("This is a debug message.")
+logger.info("This is an info message.")
+logger.warning("This is a warning message.")
+logger.error("This is an error message.")
+logger.critical("This is a critical message.")
 
 app.include_router(
     auth_router,
@@ -64,6 +79,6 @@ async def root(db: Session = Depends(get_db)):
 async def say_hello(name: str):
     from app.tasks import refresh_feeds
 
-    task = refresh_feeds()
+    task = refresh_feeds.delay()
     print(task)
     return {"message": "triggered"}
