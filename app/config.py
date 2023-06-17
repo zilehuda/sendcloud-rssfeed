@@ -1,13 +1,15 @@
-
 from typing import Optional
 
 from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    SECRET_KEY: Optional[
-        str
-    ] = "SECRET_KEY"  # TODO: override_settings in test. Temp Fix: hardcoded SECRET_KEY because override_settings not working
+    """
+    TODO: override_settings in test.
+    Temp Fix: hardcoded SECRET_KEY because override_settings not working
+    """
+
+    SECRET_KEY: Optional[str] = "SECRET_KEY"
 
     class Config:
         env_file: str = ".env"

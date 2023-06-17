@@ -8,16 +8,15 @@ from app.auth.jwt_bearer import JWTBearer
 from app.database import get_db
 from app.models import Feed
 from app.services.rss_feed_services import (
-    RSSFeedFetcher,
-    RSSFeedUpdater,
     RSSFeedCreator,
 )
 import logging
 import sys
 
+log_format = "%(asctime)s [%(levelname)s] logger=%(name)s %(funcName)s() L%(lineno)-4d %(message)s"  # noqa
 logging.basicConfig(
     level=logging.DEBUG,
-    format="%(asctime)s [%(levelname)s] logger=%(name)s %(funcName)s() L%(lineno)-4d %(message)s",
+    format=log_format,
     handlers=[logging.StreamHandler(sys.stdout)],
 )
 logger = logging.getLogger(__name__)
@@ -62,7 +61,7 @@ async def root(db: Session = Depends(get_db)):
     # # if len(feedi.entries) == 0:
     # return feedi
     # feeds = db.query(Feed).all()
-    feed = db.query(Feed).filter_by(id=1).first()
+    db.query(Feed).filter_by(id=1).first()
 
     rss_feed_service = RSSFeedCreator(db, feed_url)
     rss_feed_service.fetch_and_save_feed()

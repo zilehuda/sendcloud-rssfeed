@@ -21,7 +21,8 @@ def get_posts_for_user_by_filter(
     # TODO: need to optimize the queries
 
     logger.info(
-        f"Getting posts for user {user.id} with filter: feed_id={feed_id}, skip={skip}, limit={limit}, read={read}"
+        f"Getting posts for user {user.id} with filter: "
+        f"feed_id={feed_id}, skip={skip}, limit={limit}, read={read}"
     )
 
     followed_feed_ids = [feed.id for feed in user.feeds]

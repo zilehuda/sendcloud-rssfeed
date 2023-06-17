@@ -24,7 +24,7 @@ async def get_posts(
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> GetPostsResponse:
-    logger.info(f"Get posts request received.")
+    logger.info("Get posts request received.")
     posts = post_service.get_posts_for_user_by_filter(
         db, user, feed_id, skip, limit, read
     )

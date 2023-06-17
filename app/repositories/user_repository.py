@@ -1,4 +1,3 @@
-from sqlalchemy.orm import Session
 
 from app.models import Feed, User
 from app.utils.base_repository import BaseRepository

@@ -1,6 +1,5 @@
 from typing import Optional
 
-from sqlalchemy.orm import Session
 
 from app.models import Feed, Post
 from app.utils.base_repository import BaseRepository

@@ -1,7 +1,6 @@
 from typing import Optional
 
 from celery.utils.log import get_task_logger
-import logging
 from app.celery_app import app
 from app.database import get_db
 from app.models import Feed

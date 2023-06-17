@@ -2,7 +2,6 @@ from fastapi import HTTPException
 import logging
 from app.auth.jwt_handler import create_access_token, verify_password, get_password_hash
 from app.models import User
-from app.schemas import LoginRequest, RegisterRequest, RegisterResponse, TokenResponse
 from app.services.user_service import UserRepository
 from sqlalchemy.orm import Session
 
