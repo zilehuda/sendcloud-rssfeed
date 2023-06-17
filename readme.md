@@ -249,4 +249,4 @@ which in turn spawns 'refresh_feed' Celery tasks to individually refresh each fe
 - Still using sqlite for the tests.
 
 ## Database ERD
-![Database ERD](./Documentations/assets/rss-feed-service-erd.png)
+![Database ERD](./documentations/assets/rss-feed-service-erd.png)
