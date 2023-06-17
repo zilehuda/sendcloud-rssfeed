@@ -24,6 +24,3 @@ class JWTBearer(HTTPBearer):
             return credentials.credentials
         else:
             raise HTTPException(status_code=403, detail="Invalid authorization code.")
-
-
-jwt_bearer = JWTBearer()
