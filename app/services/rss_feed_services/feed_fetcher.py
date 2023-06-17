@@ -19,12 +19,12 @@ class RSSFeedFetcher:
 
     def fetch_feed(self) -> Optional[FeedParserDict]:
         logger = logging.getLogger(__name__)
-        logger.info("Fetching feed from URL: %s", self._feed_url)
+        logger.info(f"Fetching feed from URL: {self._feed_url}")
 
         feed = feedparser.parse(self._feed_url)
 
         if "bozo" in feed and feed["bozo"]:
-            logger.error("Invalid RSS feed provided: %s", self._feed_url)
+            logger.error(f"Invalid RSS feed provided: {self._feed_url}")
             raise HTTPException(
                 status_code=400, detail="The RSS feed provided is invalid."
             )

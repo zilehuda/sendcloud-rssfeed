@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 from fastapi import HTTPException
@@ -9,8 +10,11 @@ from app.models import Feed, User
 from app.repositories.feed_repository import FeedRepository
 from app.repositories.user_repository import UserRepository
 
+logger = logging.getLogger(__name__)
+
 
 def get_feeds_for_user(db: Session, user: User, skip: int = 0, limit: int = 10):
+    logger.info(f"Retrieving feeds for user {user.id} from skip={skip}, limit={limit}")
     feed_repository = FeedRepository(db)
     feeds = feed_repository.get_feeds(skip, limit)
 
@@ -19,6 +23,7 @@ def get_feeds_for_user(db: Session, user: User, skip: int = 0, limit: int = 10):
     for feed in feeds:
         feed.followed = feed.id in feed_ids_followed
 
+    logger.info(f"Retrieved {len(feeds)} feeds")
     return feeds
 
 
@@ -37,6 +42,8 @@ def follow_feed(db: Session, user: User, feed_id: int) -> None:
     user_repository = UserRepository(db)
     user_repository.add_feed_to_user(user, feed)
 
+    logger.info(f"User {user.id} started following feed {feed_id}")
+
 
 def unfollow_feed(db: Session, user: User, feed_id: int) -> None:
     feed_repository = FeedRepository(db)
@@ -50,6 +57,8 @@ def unfollow_feed(db: Session, user: User, feed_id: int) -> None:
 
     user_repository = UserRepository(db)
     user_repository.remove_feed_from_user(user, feed)
+
+    logger.info(f"User {user.id} unfollowed feed {feed_id}")
 
 
 def create_feed_from_url_for_user(
@@ -65,9 +74,14 @@ def create_feed_from_url_for_user(
             user_repository = UserRepository(db)
             user_repository.add_feed_to_user(user, feed)
 
+        logger.info(f"User {user.id} started following feed from URL: {feed_url}")
         return None, "User started following the feed"
 
     task = app_tasks.fetch_and_assign_feed_to_user.delay(user.id, feed_url)
+    logger.info(
+        f"Fetching the feed from URL: {feed_url} has been started for user {user.id}"
+    )
+
     return task.id, "Fetching the feed has been started"
 
 

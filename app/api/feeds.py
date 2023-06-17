@@ -25,7 +25,7 @@ async def get_feeds(
     user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ) -> GetFeedsResponse:
-    logger.info("Get feeds request received. skip=%d, limit=%d", skip, limit)
+    logger.info("Get feeds request received")
     feeds = feed_service.get_feeds_for_user(db, user, skip, limit)
     logger.info("Feeds fetched successfully")
     return GetFeedsResponse(feeds=feeds)
@@ -42,9 +42,9 @@ async def create_feed(
     accurate feed_url.
     TODO: Response and everything could be improve more
     """
-    logger.info("Create feed request received. feed_url=%s", feed_url)
+    logger.info(f"Create feed request received. feed_url={feed_url}")
     task_id, message = feed_service.create_feed_from_url_for_user(db, user, feed_url)
-    logger.info("Feed created with task=%s, message=%s", task, message)
+    logger.info(f"Feed created with task={task_id}, message={message}")
     return ResponseWithTaskIdAndMessage(task_id=task_id, message=message)
 
 
@@ -54,7 +54,7 @@ def follow_feed(
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ) -> ResponseWithMessage:
-    logger.info("Follow feed request received. feed_id=%d", feed_id)
+    logger.info(f"Follow feed request received. feed_id={feed_id}")
     feed_service.follow_feed(db, user, feed_id)
     logger.info("Successfully followed the feed")
     return ResponseWithMessage(message="Successfully followed the feed")
@@ -66,7 +66,7 @@ async def unfollow_feed(
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ) -> ResponseWithMessage:
-    logger.info("Unfollow feed request received. feed_id=%d", feed_id)
+    logger.info(f"Unfollow feed request received. feed_id={feed_id}")
     feed_service.unfollow_feed(db, user, feed_id)
     logger.info("Successfully unfollowed the feed")
     return ResponseWithMessage(message="Successfully unfollowed the feed")
@@ -82,9 +82,9 @@ async def force_refresh_feed(
     NOTE: If a user performs a force refresh on a feed,
     the updated posts from that feed will be visible to all users.
     """
-    logger.info("Force refresh feed request received. feed_id=%d", feed_id)
+    logger.info(f"Force refresh feed request received. feed_id={feed_id}")
     task_id, message = feed_service.force_refresh_feed(db, user, feed_id)
     logger.info(
-        "Force refresh feed completed with task_id=%s, message=%s", task_id, message
+        f"Force refresh feed completed with task_id={task_id}, message={message}"
     )
     return ResponseWithTaskIdAndMessage(task_id=task_id, message=message)
