@@ -24,6 +24,7 @@ archive.zip
 *.sqlite
 .env
 *.db
+celerybeat-schedule
 
 # vim temporary files
 *~
