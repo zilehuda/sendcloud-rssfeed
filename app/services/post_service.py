@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 from fastapi import HTTPException
@@ -5,6 +6,8 @@ from sqlalchemy.orm import Session
 
 from app.models import User
 from app.repositories.post_repository import PostRepository
+
+logger = logging.getLogger(__name__)
 
 
 def get_posts_for_user_by_filter(
@@ -16,6 +19,11 @@ def get_posts_for_user_by_filter(
     read: Optional[None] = None,
 ):
     # TODO: need to optimize the queries
+
+    logger.info(
+        f"Getting posts for user {user.id} with filter: feed_id={feed_id}, skip={skip}, limit={limit}, read={read}"
+    )
+
     followed_feed_ids = [feed.id for feed in user.feeds]
 
     if len(followed_feed_ids) == 0:
@@ -43,6 +51,7 @@ def get_posts_for_user_by_filter(
     for post in posts:
         post.is_read = post.id in user_read_posts_ids
 
+    logger.info(f"Retrieved {len(posts)} posts")
     return posts
 
 
