@@ -2,7 +2,6 @@
 
 import datetime
 
-
 from sqlalchemy import Column, DateTime, Integer
 
 from app.database import Base

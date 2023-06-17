@@ -9,7 +9,6 @@ from app.constants import FetchStatus
 from app.models import Feed, User
 from app.repositories.feed_repository import FeedRepository
 from app.repositories.user_repository import UserRepository
-from app import schemas
 
 logger = logging.getLogger(__name__)
 

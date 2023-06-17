@@ -8,6 +8,10 @@ It provides functionalities such as:
 - scheduler to refresh posts every 5 minutes.
 - Back-off mechanism with 2, 5 and 8 minutes.
 
+Tested the app on the following two feeds.
+1. http://www.nu.nl/rss/Algemeen 
+2. https://feeds.feedburner.com/tweakers/mixed
+
 ## Directory Structure
 The repository has the following directory structure:
 ````
@@ -96,7 +100,7 @@ cp .env.example .env
 These variables are used to configure the application. You can use the following content
 ```bash
 SECRET_KEY=43289e6b7d669e15ae00f54abcdf8a9f
-DATABASE_URL=postgresql+psycopg2://postgres:password@rssfeed_db:5432/rssfeed_db
+DATABASE_URL=postgresql+psycopg2://admin:password@rssfeed_db:5432/rssfeed_db
 DB_USER=admin
 DB_PASSWORD=password
 DB_NAME=rssfeed_db
@@ -141,6 +145,24 @@ The RSS feed service provides the following API endpoints:
 - /posts/{post_id}/mark - mark/un-mark read status of a post. [PUT]
 
 You can use tools like cURL, Postman, or any other HTTP client to interact with the API endpoints.
+
+# Code Quality and Standards
+### Code Linting
+Check `app` linting 
+```bash
+ruff app
+````
+
+To fix linting issues
+```bash
+ruff --fix app
+````
+
+### Typing
+```bash
+mypy app
+````
+
 
 
 # Run Tests
@@ -209,20 +231,21 @@ TOTAL                                              723    152    79%
 ## Areas for Improvement
 ### Backend
 - Ensure that the application is free from typing errors. 
-Currently, there are 25 remaining `mypy` errors that need to be resolved.
+Currently, there are few remaining `mypy` errors that need to be resolved.
 - To optimize performance, utilize the asynchronous query mechanism in SQLAlchemy and incorporate more asynchronous operations throughout the application.
 
 ### Testing
 - Increase test coverage by adding more unit tests and integration tests.
 Specially for services, repositories, and tasks.
 
-# Assumptions
+## Assumptions
 - When a user follows a feed and performs a force-refresh, 
 the changes will be reflected for all other users who are also following the same feed.
 - If a feed is currently on a back-off mechanism and a user attempts to force-refresh,
 the force-refresh will be allowed only after the back-off mechanism has completed.
 - Every 5 minutes, a 'refresh_feeds' task is scheduled, 
 which in turn spawns 'refresh_feed' Celery tasks to individually refresh each feed.
-- 
+- Still using sqlite for the tests.
+
 ## Database ERD
 ![Database ERD](./Documentations/assets/rss-feed-service-erd.png)

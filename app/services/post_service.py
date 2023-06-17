@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from app.models import User, Post
+from app.models import Post, User
 from app.repositories.post_repository import PostRepository
 
 logger = logging.getLogger(__name__)

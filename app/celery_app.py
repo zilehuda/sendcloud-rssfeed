@@ -1,7 +1,8 @@
+import os
+
 from celery import Celery
 from celery.schedules import crontab
 from dotenv import load_dotenv
-import os
 
 load_dotenv(".env")
 app = Celery(__name__)
