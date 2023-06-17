@@ -13,8 +13,8 @@ class PostRepository(BaseRepository):
         limit: int,
         read: Optional[bool],
         followed_feed_ids: Optional[list[int]],
-        user_read_posts_ids: Optional[list[int]],
-    ):
+        user_read_posts_ids: Optional[set[int]],
+    ) -> list[Post]:
         query = self._db.query(Post)
         query = query.filter(Post.feed_id.in_(followed_feed_ids))
 

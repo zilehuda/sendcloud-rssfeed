@@ -41,33 +41,3 @@ app.include_router(
         Depends(JWTBearer()),
     ],
 )
-
-
-@app.get("/")
-async def root(db: Session = Depends(get_db)):
-    feed_url = "https://feeds.feedburner.com/tweakers/mixed"
-    # # feed_url = "https://google.com/"
-    # feed_fetcher = RSSFeedFetcher(feed_url)
-    # feedi = feed_fetcher.fetch_feed()
-    # # if len(feedi.entries) == 0:
-    # return feedi
-    # feeds = db.query(Feed).all()
-    db.query(Feed).filter_by(id=1).first()
-
-    rss_feed_service = RSSFeedCreator(db, feed_url)
-    rss_feed_service.fetch_and_save_feed()
-    # feeds = db.query(Feed).all()
-    # rss_feed_service = RSSFeedUpdater(db, feed.id)
-    # rss_feed_service.fetch_and_update_feed()
-    return {"msg": "done"}
-
-
-@app.get(
-    "/hello/{name}",
-)
-async def say_hello(name: str):
-    from app.tasks import refresh_feeds
-
-    task = refresh_feeds.delay()
-    print(task)
-    return {"message": "triggered"}

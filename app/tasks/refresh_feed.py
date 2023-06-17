@@ -1,4 +1,3 @@
-
 from celery.utils.log import get_task_logger
 
 from app.celery_app import app
@@ -10,7 +9,7 @@ logger = get_task_logger(__name__)
 
 
 @app.task(bind=True, name="refresh_feed")
-def refresh_feed(self, feed_id: int):
+def refresh_feed(self, feed_id: int) -> None:
     logger.info(f"Refreshing feed {feed_id}")
     try:
         db = next(get_db())

@@ -4,7 +4,7 @@ from typing import Optional
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from app.models import User
+from app.models import User, Post
 from app.repositories.post_repository import PostRepository
 
 logger = logging.getLogger(__name__)
@@ -13,11 +13,11 @@ logger = logging.getLogger(__name__)
 def get_posts_for_user_by_filter(
     db: Session,
     user: User,
-    feed_id: int,
+    feed_id: Optional[int],
     skip: int = 0,
     limit: int = 10,
-    read: Optional[None] = None,
-):
+    read: Optional[bool] = None,
+) -> list[Post]:
     # TODO: need to optimize the queries
 
     logger.info(

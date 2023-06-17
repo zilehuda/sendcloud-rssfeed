@@ -1,6 +1,6 @@
 import time
 from datetime import datetime, timedelta
-from typing import Any, Union
+from typing import Any, Union, Optional
 
 from jose import jwt
 from passlib.context import CryptContext
@@ -28,7 +28,7 @@ def create_access_token(
     return encoded_jwt
 
 
-def decode_access_token(token: str):
+def decode_access_token(token: str) -> Optional[dict]:
     try:
         decoded_token = jwt.decode(token, SECRET_KEY, algorithms=[JWT_ALGORITHM])
         return decoded_token if decoded_token["exp"] >= time.time() else None
@@ -36,11 +36,11 @@ def decode_access_token(token: str):
         return {}
 
 
-def verify_password(plain_password, hashed_password):
+def verify_password(plain_password: str, hashed_password: str) -> str:
     return pwd_context.verify(plain_password, hashed_password)
 
 
-def get_password_hash(password):
+def get_password_hash(password: str) -> str:
     return pwd_context.hash(password)
 
 

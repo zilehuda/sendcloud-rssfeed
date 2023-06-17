@@ -11,7 +11,7 @@ logger = get_task_logger(__name__)
 
 
 @app.task(name="refresh_feeds")
-def refresh_feeds():
+def refresh_feeds() -> None:
     db = next(get_db())
     feeds = db.query(Feed).filter_by(fetch_status=FetchStatus.COMPLETED.value).all()
     logger.info(f"Refreshing {len(feeds)} feeds")

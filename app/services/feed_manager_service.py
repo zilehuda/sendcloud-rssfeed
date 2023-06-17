@@ -15,13 +15,13 @@ def fetch_feed(db: Session, feed_url: str) -> Optional[Feed]:
 
 def force_update_feed(
     db: Session,
-    feed_id: str,
-) -> Optional[Feed]:
+    feed_id: int,
+) -> None:
     rss_feed_service = RSSFeedUpdater(db, feed_id)
     rss_feed_service.fetch_and_update_feed()
 
 
-def refresh_feed(db: Session, feed_id: int):
+def refresh_feed(db: Session, feed_id: int) -> None:
     feed_repository = FeedRepository(db)
     feed: Feed = feed_repository.get_feed_by_id(feed_id)
     if feed:

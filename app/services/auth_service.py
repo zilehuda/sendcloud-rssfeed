@@ -1,10 +1,10 @@
 import logging
+from typing import Tuple
 
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
-from app.auth.jwt_handler import (create_access_token, get_password_hash,
-                                  verify_password)
+from app.auth.jwt_handler import create_access_token, get_password_hash, verify_password
 from app.models import User
 from app.services.user_service import UserRepository
 
@@ -21,7 +21,7 @@ def login(db: Session, email: str, password: str) -> str:
     return access_token
 
 
-def register(db: Session, email: str, password: str) -> (int, str):
+def register(db: Session, email: str, password: str) -> Tuple[int, str]:
     user_repository = UserRepository(db)
     existing_user = user_repository.get_user_by_email(email)
     if existing_user:

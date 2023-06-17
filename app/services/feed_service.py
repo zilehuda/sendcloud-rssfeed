@@ -1,5 +1,5 @@
 import logging
-from typing import Optional
+from typing import Optional, Tuple
 
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
@@ -9,14 +9,17 @@ from app.constants import FetchStatus
 from app.models import Feed, User
 from app.repositories.feed_repository import FeedRepository
 from app.repositories.user_repository import UserRepository
+from app import schemas
 
 logger = logging.getLogger(__name__)
 
 
-def get_feeds_for_user(db: Session, user: User, skip: int = 0, limit: int = 10):
+def get_feeds_for_user(
+    db: Session, user: User, skip: int = 0, limit: int = 10
+) -> list[Feed]:
     logger.info(f"Retrieving feeds for user {user.id} from skip={skip}, limit={limit}")
     feed_repository = FeedRepository(db)
-    feeds = feed_repository.get_feeds(skip, limit)
+    feeds: list[Feed] = feed_repository.get_feeds(skip, limit)
 
     # Determine if the user is following each feed
     feed_ids_followed = set(feed.id for feed in user.feeds)
@@ -63,7 +66,7 @@ def unfollow_feed(db: Session, user: User, feed_id: int) -> None:
 
 def create_feed_from_url_for_user(
     db: Session, user: User, feed_url: str
-) -> (Optional[int], str):
+) -> Tuple[Optional[str], str]:
     feed_repository = FeedRepository(db)
     feed = feed_repository.get_feed_by_feed_url(feed_url)
 
@@ -85,7 +88,9 @@ def create_feed_from_url_for_user(
     return task.id, "Fetching the feed has been started"
 
 
-def force_refresh_feed(db: Session, user: User, feed_id: int):
+def force_refresh_feed(
+    db: Session, user: User, feed_id: int
+) -> Tuple[Optional[str], str]:
     feed_repository = FeedRepository(db)
     feed: Feed = feed_repository.get_feed_by_id(feed_id)
 
@@ -102,7 +107,9 @@ def force_refresh_feed(db: Session, user: User, feed_id: int):
     return task.id, "The update process for feeds has been initiated."
 
 
-def change_feed_fetch_status(db: Session, feed_id, fetch_status: FetchStatus) -> None:
+def change_feed_fetch_status(
+    db: Session, feed_id: int, fetch_status: FetchStatus
+) -> None:
     feed_repository = FeedRepository(db)
     feed: Feed = feed_repository.get_feed_by_id(feed_id)
     feed.fetch_status = fetch_status.value

@@ -12,7 +12,7 @@ logger = get_task_logger(__name__)
 
 
 @app.task(name="fetch_and_assign_feed_to_user")
-def fetch_and_assign_feed_to_user(user_id, feed_url):
+def fetch_and_assign_feed_to_user(user_id: int, feed_url: str) -> None:
     logger.info(f"Fetching and assigning feed '{feed_url}' to user {user_id}")
 
     db = next(get_db())

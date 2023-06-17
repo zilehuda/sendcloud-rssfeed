@@ -1,4 +1,7 @@
+#  type: ignore
+
 import datetime
+
 
 from sqlalchemy import Column, DateTime, Integer
 

@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 
 
 class RSSFeedFetcher:
-    def __init__(self, feed_url: str) -> dict:
+    def __init__(self, feed_url: str) -> None:
         self._feed_url = feed_url
 
     """
